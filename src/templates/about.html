@@ -17,7 +17,7 @@
     <div class="row">
       <div class="col-md-12 text-center">
         <h1>{% include "_brandname.html" %}</h1>
-        <p class="lead">An Awesome Tagline Goes Here</p>
+        <p class="lead">{% include "_tagline.html" %}</p>
       </div>
     </div>
   </div>
@@ -27,8 +27,8 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12 text-center">
-        <h2>Meet The Team</h2>
-        <p class="lead">The Wonderful People Behind the Site</p>
+        <h2>Meet The People who are using Mysana</h2>
+        <p class="lead">The Wonderful People Behind Mysana's success</p>
       </div>
     </div>
     <div class="row">
@@ -60,15 +60,7 @@
     <div class="row">
       <div id="map-outer" class="col-md-12">
         <div id="address" class="col-md-4">
-          <h2>Our Location</h2>
-          <address>
-            <strong>Edge Solutions Ltd.</strong><br>
-            Taj Mahal<br>
-            Agra<br>
-            Uttar Pradesh<br>
-            India - 282001<br>
-            <abbr>P:</abbr> +91 0562 222 6431
-          </address>
+          {% include "_location.html" %}
         </div>
         <div id="map-container" class="col-md-8"></div>
       </div>
@@ -83,7 +75,7 @@
 
    function init_map() {
      // Enter the latitude and longitude of your office here
-	 var myLocation = new google.maps.LatLng(27.176141, 78.042370);
+	 var myLocation = new google.maps.LatLng({% include "_coordinate.html" %});
 
      var mapOptions = {
           center: myLocation,

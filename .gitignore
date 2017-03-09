@@ -56,4 +56,6 @@ Thumbs.db
 Desktop.ini
 
 # Project settings
-./site/
+site/
+
+docker-compose.yml.bak
