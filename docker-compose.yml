@@ -31,9 +31,9 @@ services:
     env_file: ./src/mysana/settings/local.env
     environment:
       - UWSGI_URI=mysana-uwsgi:30000
-#      - "SERVER_NAME=${WEB_HOST}"
-#      - "VIRTUAL_HOST=${WEB_HOST}"
-#
+      - "SERVER_NAME=${WEB_HOST}"
+      - "VIRTUAL_HOST=${WEB_HOST}"
+
   mysana-postgres:
     image: mysana-postgres
     container_name: mysana-postgres
