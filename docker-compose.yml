@@ -1,0 +1,60 @@
+version: '2'
+services:
+  mysana-uwsgi:
+    image: mysana-uwsgi
+    container_name: mysana-uwsgi
+    depends_on:
+      - mysana-postgres
+    ports:
+      - "8080:8000"
+    links:
+      - "mysana-postgres:mysana-postgres"
+    volumes:
+      - .:/app/
+    env_file: ./src/mysana/settings/local.env
+#    environment:
+#      - "DATABASE_PASSWORD=${DATABASE_PASSWORD}"
+#      - "DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}"
+
+  mysana-nginx:
+    image: mysana-nginx
+    container_name: mysana-nginx
+    depends_on:
+      - mysana-uwsgi
+    ports:
+      - "81:80"
+    links:
+      - "mysana-uwsgi:mysana-uwsgi"
+    volumes:
+      - ./static:/app/static
+      - ./media:/app/media
+    env_file: ./src/mysana/settings/local.env
+    environment:
+      - UWSGI_URI=mysana-uwsgi:30000
+#      - "SERVER_NAME=${WEB_HOST}"
+#      - "VIRTUAL_HOST=${WEB_HOST}"
+#
+  mysana-postgres:
+    image: mysana-postgres
+    container_name: mysana-postgres
+    ports:
+      - "5435:5435"
+    volumes_from:
+      - mysana-postgres-data
+    depends_on:
+      - mysana-postgres-data
+    env_file: ./src/mysana/settings/local.env
+
+
+  mysana-postgres-data:
+    image: postgres:9.5
+    container_name: mysana-postgres-data
+    volumes:
+      - mysana-data:/var/lib/postgresql/data
+    entrypoint: /bin/bash
+    privileged: true
+
+volumes:
+  mysana-data:
+    external: true
+
