@@ -22,8 +22,8 @@ def build_images():
     pgpassword = get_env_value('PGPASSWORD')
     print("\nDJANGO_SETTINGS_MODULE: ", django_settings_module)
     print("\n==============Building images==============\n")
-    # build_postgres_image(database_user, database_pass, database, pgpassword)
-    # build_uwsgi_image(django_secret_key)
+    build_postgres_image(database_user, database_pass, database, pgpassword)
+    build_uwsgi_image(django_secret_key)
     build_nginx_image()
 
 
