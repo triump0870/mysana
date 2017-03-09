@@ -38,13 +38,33 @@ def get_env_value(key):
 
 @task()
 def up():
+    web_host = get_env_value('WEB_HOST')
+    network = get_env_value('AWS_NETWORK')
+    set_env("WEB_HOST", web_host)
+    set_env("AWS_NETWORK", network)
+    replace_network()
     example_file_conversion("mysana.settings.local.env.example")
     local('docker-compose up -d')
+    place_network()
+
+
+def replace_network():
+    local('sed -i.bak "s/{{AWS_NETWORK}}/$AWS_NETWORK/" docker-compose.yml')
+
+
+def place_network():
+    local('sed -i.bak "s/$AWS_NETWORK/{{AWS_NETWORK}}/" docker-compose.yml')
 
 
 @task()
 def status():
+    web_host = get_env_value('WEB_HOST')
+    network = get_env_value('AWS_NETWORK')
+    set_env("WEB_HOST", web_host)
+    set_env("AWS_NETWORK", network)
+    replace_network()
     local('docker-compose ps')
+    place_network()
 
 
 @task()
@@ -59,17 +79,18 @@ def bash(container='mysana-uwsgi', command=""):
 
 @task()
 def down():
+    web_host = get_env_value('WEB_HOST')
+    network = get_env_value('AWS_NETWORK')
+    set_env("WEB_HOST", web_host)
+    set_env("AWS_NETWORK", network)
+    replace_network()
     local('docker-compose down')
+    place_network()
 
 
 @task()
 def restart():
     print("\n===============Rebooting the containers==============\n")
-    web_host = get_env_value('WEB_HOST')
-    set_env("WEB_HOST", web_host)
-    # if not get_debug_value():
-    #     backup_mysql()
-
     print("\n===============Shutting down the container===============\n")
     down()
 

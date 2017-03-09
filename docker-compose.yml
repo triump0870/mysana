@@ -12,7 +12,7 @@ services:
     volumes:
       - .:/app/
     networks:
-      - miniblog_default
+      - ${AWS_NETWORK}
     env_file: ./src/mysana/settings/local.env
 
   mysana-nginx:
@@ -28,7 +28,7 @@ services:
       - ./static:/app/static
       - ./media:/app/media
     networks:
-      - miniblog_default
+      - ${AWS_NETWORK}
     env_file: ./src/mysana/settings/local.env
     environment:
       - UWSGI_URI=mysana-uwsgi:30000
@@ -45,7 +45,7 @@ services:
     depends_on:
       - mysana-postgres-data
     networks:
-      - miniblog_default
+      - ${AWS_NETWORK}
     env_file: ./src/mysana/settings/local.env
 
 
@@ -55,7 +55,7 @@ services:
     volumes:
       - mysana-data:/var/lib/postgresql/data
     networks:
-      - miniblog_default
+      - ${AWS_NETWORK}
     entrypoint: /bin/bash
     privileged: true
 
@@ -64,5 +64,5 @@ volumes:
     external: true
 
 networks:
-  miniblog_default:
+  {{AWS_NETWORK}}:
     external: true
