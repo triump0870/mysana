@@ -1,6 +1,7 @@
-from .base import *             # NOQA
+from .base import *  # NOQA
 import sys
 import logging.config
+from os import environ, makedirs
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -31,8 +32,23 @@ INTERNAL_IPS = [
     '0.0.0.1',
 ]
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASSWORD'),
+        'HOST': env('DATABASE_HOST'),
+    }
+}
+
+# Define STATIC_ROOT for the collectstatic command
+STATIC_ROOT = join(BASE_DIR, '..', 'site', 'static')
+
 # Log everything to the logs directory at the top
-LOGFILE_ROOT = join(dirname(BASE_DIR), 'logs')
+logfile_path = environ.get('LOG_FILE_PATH', '/var/log/app_logs')
+makedirs(logfile_path, exist_ok=True)
+LOGFILE_ROOT = join(BASE_DIR, logfile_path)
 
 # Reset logging
 # (see http://www.caktusgroup.com/blog/2015/01/27/Django-Logging-Configuration-logging_config-default-settings-logger/)
