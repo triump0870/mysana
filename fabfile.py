@@ -65,6 +65,8 @@ def down():
 @task()
 def restart():
     print("\n===============Rebooting the containers==============\n")
+    web_host = get_env_value('WEB_HOST')
+    set_env("WEB_HOST", web_host)
     # if not get_debug_value():
     #     backup_mysql()
 
@@ -160,3 +162,7 @@ def build_postgres_image(database_user, database_pass, database_name, pgpassword
           "-f dockerify/postgres/Dockerfile -t mysana-postgres .".format(
         database_user, database_pass, database_name, pgpassword
     ))
+
+
+def set_env(key, value):
+    local('export %s=%s' % (key, value))

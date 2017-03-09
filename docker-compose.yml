@@ -12,9 +12,6 @@ services:
     volumes:
       - .:/app/
     env_file: ./src/mysana/settings/local.env
-#    environment:
-#      - "DATABASE_PASSWORD=${DATABASE_PASSWORD}"
-#      - "DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}"
 
   mysana-nginx:
     image: mysana-nginx
