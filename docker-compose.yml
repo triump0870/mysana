@@ -25,6 +25,8 @@ services:
     volumes:
       - ./static:/app/static
       - ./media:/app/media
+    networks:
+      - miniblog_default
     env_file: ./src/mysana/settings/local.env
     environment:
       - UWSGI_URI=mysana-uwsgi:30000
@@ -55,3 +57,6 @@ volumes:
   mysana-data:
     external: true
 
+networks:
+  miniblog_default:
+    external: true
