@@ -57,3 +57,5 @@ Desktop.ini
 
 # Project settings
 site/
+
+docker-compose.yml.bak
