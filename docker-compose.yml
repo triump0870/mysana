@@ -11,6 +11,8 @@ services:
       - "mysana-postgres:mysana-postgres"
     volumes:
       - .:/app/
+    networks:
+      - miniblog_default
     env_file: ./src/mysana/settings/local.env
 
   mysana-nginx:
@@ -42,6 +44,8 @@ services:
       - mysana-postgres-data
     depends_on:
       - mysana-postgres-data
+    networks:
+      - miniblog_default
     env_file: ./src/mysana/settings/local.env
 
 
@@ -50,6 +54,8 @@ services:
     container_name: mysana-postgres-data
     volumes:
       - mysana-data:/var/lib/postgresql/data
+    networks:
+      - miniblog_default
     entrypoint: /bin/bash
     privileged: true
 
