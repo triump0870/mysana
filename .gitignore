@@ -60,3 +60,4 @@ site/
 
 docker-compose.yml.bak
 src/media/
+.idea

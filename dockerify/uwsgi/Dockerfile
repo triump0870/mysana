@@ -25,6 +25,7 @@ WORKDIR /app/
 # install all the django dependencies
 RUN pip install -r /app-requirements/requirements.txt
 
+RUN pip install django-faker model_mommy
 COPY . /app/
 
 # Create the log directory for uwsgi and the shared directory for static files
