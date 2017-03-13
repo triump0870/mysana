@@ -43,6 +43,7 @@ TEMPLATES = [
 
 # Use 12factor inspired environment variables or from a file
 import environ
+
 env = environ.Env()
 
 # Ideally move env file should be outside the git repo
@@ -74,10 +75,13 @@ INSTALLED_APPS = (
     'authtools',
     'crispy_forms',
     'easy_thumbnails',
+    'rest_framework',
+    'celery',
 
     'profiles',
     'accounts',
     'goals',
+    'apis',
 
 )
 
@@ -118,6 +122,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 # For Bootstrap 3, change error alert to 'danger'
 from django.contrib import messages
+
 MESSAGE_TAGS = {
     messages.ERROR: 'danger'
 }
@@ -127,4 +132,4 @@ AUTH_USER_MODEL = 'authtools.User'
 LOGIN_REDIRECT_URL = reverse_lazy("profiles:show_self")
 LOGIN_URL = reverse_lazy("accounts:login")
 
-THUMBNAIL_EXTENSION = 'png'     # Or any extn for your thumbnails
+THUMBNAIL_EXTENSION = 'png'  # Or any extn for your thumbnails

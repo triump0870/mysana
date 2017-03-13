@@ -8,32 +8,34 @@ services:
     ports:
       - "8080:8000"
     links:
-      - "mysana-postgres:mysana-postgres"
+      - mysana-postgres
+      - mysana-rabbit
+      - mysana-redis
     volumes:
       - .:/app/
+    env_file: ./src/mysana/settings/local.env
     networks:
       - ${AWS_NETWORK}
-    env_file: ./src/mysana/settings/local.env
 
   mysana-nginx:
     image: mysana-nginx
     container_name: mysana-nginx
     depends_on:
       - mysana-uwsgi
-    ports:
-      - "81:80"
+#    ports:               # Uncomment it to use in Dev
+#      - "80:80"
     links:
       - "mysana-uwsgi:mysana-uwsgi"
     volumes:
       - ./static:/app/static
       - ./media:/app/media
-    networks:
-      - ${AWS_NETWORK}
     env_file: ./src/mysana/settings/local.env
     environment:
       - UWSGI_URI=mysana-uwsgi:30000
       - "SERVER_NAME=${WEB_HOST}"
       - "VIRTUAL_HOST=${WEB_HOST}"
+    networks:
+      - ${AWS_NETWORK}
 
   mysana-postgres:
     image: mysana-postgres
@@ -44,9 +46,9 @@ services:
       - mysana-postgres-data
     depends_on:
       - mysana-postgres-data
+    env_file: ./src/mysana/settings/local.env
     networks:
       - ${AWS_NETWORK}
-    env_file: ./src/mysana/settings/local.env
 
 
   mysana-postgres-data:
@@ -54,10 +56,35 @@ services:
     container_name: mysana-postgres-data
     volumes:
       - mysana-data:/var/lib/postgresql/data
-    networks:
-      - ${AWS_NETWORK}
     entrypoint: /bin/bash
     privileged: true
+    networks:
+      - ${AWS_NETWORK}
+
+  # Redis
+  mysana-redis:
+    image: redis:2.8.19
+    container_name: mysana-redis
+    hostname: redis
+    networks:
+      - ${AWS_NETWORK}
+
+
+  # RabbitMQ
+  mysana-rabbit:
+    hostname: rabbit
+    image: rabbitmq:3.6.0
+    container_name: mysana-rabbit
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=rohan123
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - "VIRTUAL_HOST=rabbit.${WEB_HOST}"
+    networks:
+      - ${AWS_NETWORK}
 
 volumes:
   mysana-data:

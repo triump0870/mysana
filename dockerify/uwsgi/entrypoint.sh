@@ -12,8 +12,10 @@ if [ "$DEBUG" == "True" ]; then
     >&2 echo "Postgres is up - executing command"
 fi
 
-python src/manage.py migrate
-yes | python src/manage.py collectstatic --noinput
+/etc/init.d/celeryd start
+
+echo yes | python src/manage.py migrate
+echo yes | python src/manage.py collectstatic --noinput
 
 # Forward app logs to docker log collector
 tail -n0 -F /var/log/app_logs/*.log &
