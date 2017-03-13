@@ -12,6 +12,8 @@ if [ "$DEBUG" == "True" ]; then
     >&2 echo "Postgres is up - executing command"
 fi
 
+/etc/init.d/celeryd start
+
 python src/manage.py migrate
 yes | python src/manage.py collectstatic --noinput
 

@@ -26,8 +26,25 @@ WORKDIR /app/
 RUN pip install -r /app-requirements/requirements.txt
 
 RUN pip install django-faker model_mommy
+RUN pip install django-celery
+
 COPY . /app/
 
+RUN mkdir -p /var/log/celery
+RUN mkdir -p /var/log/app_logs
+
+COPY ./dockerify/uwsgi/celeryd.conf /etc/default/
+COPY ./dockerify/uwsgi/celeryd /etc/init.d/celeryd
+#COPY ./dockerify/uwsgi/celerybeat /etc/init.d/celerybeat
+
+#RUN cp /etc/init.d/celerybeat /etc/init.d/accounts_celerydbeat
+#RUN chmod +x /etc/init.d/accounts_celerydbeat
+
+RUN mv /etc/default/celeryd.conf /etc/default/celeryd
+RUN chmod +x /etc/init.d/celeryd
+RUN chmod 640 /etc/default/celeryd
+
+COPY ./dockerify/uwsgi/mysana_celery.conf /etc/init/mysana_celery.conf
 # Create the log directory for uwsgi and the shared directory for static files
 RUN mkdir /var/log/uwsgi /shared
 

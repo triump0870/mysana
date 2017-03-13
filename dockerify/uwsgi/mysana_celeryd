@@ -1,0 +1,22 @@
+CELERY_APP="mysana"
+
+CELERY_BIN="/usr/local/bin/celery"
+
+CELERYD_NODES="mysana_worker"
+
+CELERYD_CHDIR="/app/src/mysana/settings"
+
+CELERYD_OPTS="-Q:mysana_worker mysana"
+
+CELERY_CONFIG_MODULE="celery"
+
+CELERYD_LOG_FILE="/var/log/celery/mysana.log"
+CELERYD_PID_FILE="/var/run/mysana.pid"
+
+CELERYD_USER="root"
+
+CELERY_CREATE_DIRS=1
+
+ENV_PYTHON="/usr/local/bin/python"
+
+export DJANGO_SETTINGS_MODULE="mysana.settings.development"
