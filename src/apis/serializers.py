@@ -19,3 +19,4 @@ class GoalSerailizer(serializers.ModelSerializer):
     def validate_end_date(self, value):
         if value < datetime.now().date():
             raise ValidationError("End date should not be in past")
+        return value
