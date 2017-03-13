@@ -1,0 +1,17 @@
+Hi {{user}},
+<br><br>
+You have the following life goals in Mysana App.
+<br><br>
+<ul>
+    {% for goal in goals %}
+    <li>
+        <a href="{{goal.get_absolute_url}}">{{goal.title}}</a>
+    </li>
+    {% empty %}
+    <p> You have no pending life goal in Mysana App.</p>
+    {% endfor %}
+</ul>
+<br><br><br>
+Thanks,
+<br>
+Mysana Team.
