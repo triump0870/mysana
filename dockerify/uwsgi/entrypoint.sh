@@ -15,7 +15,7 @@ fi
 /etc/init.d/celeryd start
 
 python src/manage.py migrate
-yes | python src/manage.py collectstatic --noinput
+echo yes | python src/manage.py collectstatic --noinput
 
 # Forward app logs to docker log collector
 tail -n0 -F /var/log/app_logs/*.log &
