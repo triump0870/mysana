@@ -13,8 +13,9 @@ services:
       - mysana-redis
     volumes:
       - .:/app/
-
     env_file: ./src/mysana/settings/local.env
+    network:
+      - ${AWS_NETWORK}
 
   mysana-nginx:
     image: mysana-nginx
@@ -28,12 +29,13 @@ services:
     volumes:
       - ./static:/app/static
       - ./media:/app/media
-
     env_file: ./src/mysana/settings/local.env
     environment:
       - UWSGI_URI=mysana-uwsgi:30000
       - "SERVER_NAME=${WEB_HOST}"
       - "VIRTUAL_HOST=${WEB_HOST}"
+    network:
+      - ${AWS_NETWORK}
 
   mysana-postgres:
     image: mysana-postgres
@@ -44,8 +46,9 @@ services:
       - mysana-postgres-data
     depends_on:
       - mysana-postgres-data
-
     env_file: ./src/mysana/settings/local.env
+    network:
+      - ${AWS_NETWORK}
 
 
   mysana-postgres-data:
@@ -53,15 +56,18 @@ services:
     container_name: mysana-postgres-data
     volumes:
       - mysana-data:/var/lib/postgresql/data
-
     entrypoint: /bin/bash
     privileged: true
+    network:
+      - ${AWS_NETWORK}
 
   # Redis
   mysana-redis:
     image: redis:2.8.19
     container_name: mysana-redis
     hostname: redis
+    network:
+      - ${AWS_NETWORK}
 
 
   # RabbitMQ
@@ -77,7 +83,13 @@ services:
       - "15672:15672"
     environment:
       - "VIRTUAL_HOST=rabbit.${WEB_HOST}"
+    network:
+      - ${AWS_NETWORK}
 
 volumes:
   mysana-data:
+    external: true
+
+network:
+  {{AWS_NETWORK}}:
     external: true
