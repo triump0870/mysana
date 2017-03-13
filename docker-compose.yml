@@ -14,7 +14,7 @@ services:
     volumes:
       - .:/app/
     env_file: ./src/mysana/settings/local.env
-    network:
+    networks:
       - ${AWS_NETWORK}
 
   mysana-nginx:
@@ -34,7 +34,7 @@ services:
       - UWSGI_URI=mysana-uwsgi:30000
       - "SERVER_NAME=${WEB_HOST}"
       - "VIRTUAL_HOST=${WEB_HOST}"
-    network:
+    networks:
       - ${AWS_NETWORK}
 
   mysana-postgres:
@@ -47,7 +47,7 @@ services:
     depends_on:
       - mysana-postgres-data
     env_file: ./src/mysana/settings/local.env
-    network:
+    networks:
       - ${AWS_NETWORK}
 
 
@@ -58,7 +58,7 @@ services:
       - mysana-data:/var/lib/postgresql/data
     entrypoint: /bin/bash
     privileged: true
-    network:
+    networks:
       - ${AWS_NETWORK}
 
   # Redis
@@ -66,7 +66,7 @@ services:
     image: redis:2.8.19
     container_name: mysana-redis
     hostname: redis
-    network:
+    networks:
       - ${AWS_NETWORK}
 
 
@@ -83,13 +83,13 @@ services:
       - "15672:15672"
     environment:
       - "VIRTUAL_HOST=rabbit.${WEB_HOST}"
-    network:
+    networks:
       - ${AWS_NETWORK}
 
 volumes:
   mysana-data:
     external: true
 
-network:
+networks:
   {{AWS_NETWORK}}:
     external: true
