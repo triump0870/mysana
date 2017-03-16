@@ -33,14 +33,13 @@ RUN apt-get update && apt-get install -y \
 
 EXPOSE 15672
 EXPOSE 5672
-RUN touch /var/log/celery/mysana_worker.log
-RUN touch /var/log/celery/mysana_beat.log
 
 COPY . /app/
 
 RUN mkdir -p /var/log/celery
 RUN mkdir -p /var/log/app_logs
-
+RUN touch /var/log/celery/mysana_worker.log
+RUN touch /var/log/celery/mysana_beat.log
 RUN cp -f ./dockerify/uwsgi/celery_sup.conf /etc/supervisor/conf.d/
 
 COPY ./dockerify/uwsgi/celeryd.conf /etc/default/
