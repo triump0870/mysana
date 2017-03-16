@@ -134,14 +134,14 @@ RABBIT_HOSTNAME = os.environ.get('RABBIT_PORT_5672_TCP', 'mysana-rabbit')
 if RABBIT_HOSTNAME.startswith('tcp://'):
     RABBIT_HOSTNAME = RABBIT_HOSTNAME.split('//')[1]
 
-BROKER_URL = os.environ.get('BROKER_URL', '')
+BROKER_URL = os.environ.get('BROKER_URL', 'amqp://')
 
-if not BROKER_URL:
-    BROKER_URL = 'amqp://{user}:{password}@{hostname}/{vhost}/'.format(
-        user=os.environ.get('RABBIT_ENV_USER', 'admin'),
-        password=os.environ.get('RABBIT_ENV_RABBITMQ_PASS', 'rohan123'),
-        hostname=RABBIT_HOSTNAME,
-        vhost=os.environ.get('RABBIT_ENV_VHOST', ''))
+# if not BROKER_URL:
+#     BROKER_URL = 'amqp://{user}:{password}@{hostname}/{vhost}/'.format(
+#         user=os.environ.get('RABBIT_ENV_USER', 'admin'),
+#         password=os.environ.get('RABBIT_ENV_RABBITMQ_PASS', 'rohan123'),
+#         hostname=RABBIT_HOSTNAME,
+#         vhost=os.environ.get('RABBIT_ENV_VHOST', ''))
 
 # We don't want to have dead connections stored on rabbitmq, so we have to negotiate using heartbeats
 BROKER_HEARTBEAT = '?heartbeat=30'

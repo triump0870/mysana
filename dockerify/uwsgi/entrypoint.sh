@@ -18,9 +18,8 @@ rabbitmq-plugins enable rabbitmq_management
 /etc/init.d/supervisor restart
 
 supervisorctl update
-supervisorctl restart mysanacelery
-supervisorctl restart mysanacelerybeat
 supervisorctl status mysanacelery
+supervisorctl status mysanacelerybeat
 
 echo yes | python src/manage.py migrate
 echo yes | python src/manage.py collectstatic --noinput
