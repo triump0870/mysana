@@ -18,7 +18,8 @@ rabbitmq-plugins enable rabbitmq_management
 /etc/init.d/supervisor restart
 
 supervisorctl update
-supervisorctl start mysanacelery
+supervisorctl restart mysanacelery
+supervisorctl restart mysanacelerybeat
 supervisorctl status mysanacelery
 
 echo yes | python src/manage.py migrate
@@ -26,6 +27,7 @@ echo yes | python src/manage.py collectstatic --noinput
 
 # Forward app logs to docker log collector
 tail -n0 -F /var/log/app_logs/*.log &
+tail -n0 -F /vat/log/celery/*.log &
 
 # start uwsgi
 exec uwsgi --emperor dockerify/uwsgi/ --gid www-data
