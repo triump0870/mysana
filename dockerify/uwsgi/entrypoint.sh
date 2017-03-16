@@ -12,10 +12,9 @@ if [ "$DEBUG" == "True" ]; then
     >&2 echo "Postgres is up - executing command"
 fi
 
-#/etc/init.d/celeryd start
-supervisorctl reread
+/etc/init.d/supervisor restart
+
 supervisorctl update
-supervisorctl stop mysanacelery
 supervisorctl start mysanacelery
 supervisorctl status mysanacelery
 
