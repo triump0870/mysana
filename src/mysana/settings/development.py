@@ -44,7 +44,6 @@ STATIC_ROOT = join(BASE_DIR, '..', 'site', 'static')
 
 # Log everything to the logs directory at the top
 logfile_path = environ.get('LOG_FILE_PATH', '/var/log/app_logs')
-makedirs(logfile_path, exist_ok=True)
 LOGFILE_ROOT = join(BASE_DIR, logfile_path)
 
 REST_FRAMEWORK = {
