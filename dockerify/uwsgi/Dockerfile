@@ -1,13 +1,11 @@
 # The base image
-FROM python:3.4
+FROM python:2.7
 
 # Install all debian packages
 RUN apt-get update && apt-get install -y \
         gcc \
-        mysql-client libmysqlclient-dev\
         postgresql-client libpq-dev \
-		sqlite3 \
-        python3-dev \
+        python-dev \
         build-essential \
         vim \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
