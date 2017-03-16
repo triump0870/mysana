@@ -12,7 +12,12 @@ if [ "$DEBUG" == "True" ]; then
     >&2 echo "Postgres is up - executing command"
 fi
 
-/etc/init.d/celeryd start
+#/etc/init.d/celeryd start
+supervisorctl reread
+supervisorctl update
+supervisorctl stop mysanacelery
+supervisorctl start mysanacelery
+supervisorctl status mysanacelery
 
 echo yes | python src/manage.py migrate
 echo yes | python src/manage.py collectstatic --noinput
