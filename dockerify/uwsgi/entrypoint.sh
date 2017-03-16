@@ -12,6 +12,7 @@ if [ "$DEBUG" == "True" ]; then
     >&2 echo "Postgres is up - executing command"
 fi
 
+/etc/init.d/rabbitmq-server restart
 /etc/init.d/supervisor restart
 
 supervisorctl update
