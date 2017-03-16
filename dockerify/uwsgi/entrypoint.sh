@@ -12,6 +12,8 @@ if [ "$DEBUG" == "True" ]; then
     >&2 echo "Postgres is up - executing command"
 fi
 
+echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/
+rabbitmq-plugins enable rabbitmq_management
 /etc/init.d/rabbitmq-server restart
 /etc/init.d/supervisor restart
 

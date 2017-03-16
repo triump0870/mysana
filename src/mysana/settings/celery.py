@@ -10,7 +10,7 @@ from kombu import Exchange, Queue
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysana.settings.development')
 
-app = Celery('mysana')
+app = Celery('mysana', backend=settings.CELERY_RESULT_BACKEND, broker=settings.BROKER_URL)
 
 # Using a string here means the worker will not have to
 # pickle the object when using Windows.
@@ -37,4 +37,4 @@ app.conf.update(
 
 @app.task
 def print_hello():
-    print ('hello there')
+    print('hello there')
