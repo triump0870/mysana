@@ -28,6 +28,16 @@ RUN pip install -r /app-requirements/requirements.txt
 RUN pip install django-faker model_mommy
 RUN pip install django-celery
 
+RUN wget http://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
+RUN dpkg -i erlang-solutions_1.0_all.deb
+RUN apt-get update
+RUN apt-get -y install socat erlang-nox=1:19.0-1
+RUN wget http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.3/rabbitmq-server_3.6.3-1_all.deb
+RUN dpkg -i rabbitmq-server_3.6.3-1_all.deb
+
+EXPOSE 15672
+EXPOSE 5672
+
 COPY . /app/
 
 RUN mkdir -p /var/log/celery
