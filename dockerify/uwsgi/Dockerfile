@@ -28,7 +28,8 @@ RUN pip install -r /app-requirements/requirements.txt
 RUN pip install django-faker model_mommy
 RUN pip install django-celery
 
-RUN apt-get install -y supervisor rabbitmq-server
+RUN apt-get update && apt-get install -y \
+    supervisor rabbitmq-server
 
 EXPOSE 15672
 EXPOSE 5672
