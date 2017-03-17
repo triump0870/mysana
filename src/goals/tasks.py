@@ -88,7 +88,8 @@ def daily_notification():
 
         html_message = template.render({
             "user": user,
-            "goal": goals
+            "goal": goals,
+            "server": os.environ.get('SERVER_NAME', 'mysana.rohanroy.com')
         })
         logger.info("sending email for user [%s]" % user.id)
         send_mail(
