@@ -22,7 +22,8 @@ def send_creation_email(id):
 
     html_message = template.render({
         "user": goal.user.name,
-        "goal": goal.title
+        "goal": goal.title,
+        "url": goal.get_absolute_url()
     })
 
     logger.info("sending email for [%s]" % goal.id)
@@ -55,7 +56,8 @@ def send_update_email(id):
     html_message = template.render({
         "user": goal.user.name,
         "goal": goal.title,
-        "status": status
+        "status": status,
+        "url": goal.get_absolute_url()
     })
 
     logger.info("sending email for [%s]" % goal.id)
