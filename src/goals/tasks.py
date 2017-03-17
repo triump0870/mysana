@@ -1,12 +1,14 @@
 import logging
+import os
 
 from celery.decorators import task
+from celery.schedules import crontab
+from celery.task.base import periodic_task
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.template import loader
-from celery.task.base import periodic_task
-from celery.schedules import crontab
+
 from goals.models import Goal
 
 logger = logging.getLogger("project")
@@ -23,7 +25,7 @@ def send_creation_email(id):
     html_message = template.render({
         "user": goal.user.name,
         "goal": goal.title,
-        "url": goal.get_absolute_url()
+        "url": "http://" + os.environ.get('SERVER_NAME', 'mysana.rohanroy.com') + goal.get_absolute_url()
     })
 
     logger.info("sending email for [%s]" % goal.id)
@@ -57,7 +59,7 @@ def send_update_email(id):
         "user": goal.user.name,
         "goal": goal.title,
         "status": status,
-        "url": goal.get_absolute_url()
+        "url": "http://" + os.environ.get('SERVER_NAME', 'mysana.rohanroy.com') + goal.get_absolute_url()
     })
 
     logger.info("sending email for [%s]" % goal.id)
