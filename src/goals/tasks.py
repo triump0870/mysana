@@ -17,7 +17,7 @@ User = get_user_model()
 def send_creation_email(id):
     goal = Goal.objects.get(id=id)
 
-    template = loader.get_template("email/create_goal.html")
+    template = loader.get_template("goals/email/create_goal.html")
     subject = "Mysana Notification"
 
     html_message = template.render({
@@ -32,7 +32,7 @@ def send_creation_email(id):
             '',
             settings.EMAIL_FROM,
             ["rohan@rohanroy.com"],
-            html_message=html_message,
+            # html_message=html_message,
             fail_silently=False
         )
         logger.info("Email was sent to [%s]" % goal.user.email)
@@ -50,7 +50,7 @@ def send_update_email(id):
         subject = "Mysana Task Updation Notification"
         status = "updated"
 
-    template = loader.get_template("email/update_goal.html")
+    template = loader.get_template("goals/email/update_goal.html")
 
     html_message = template.render({
         "user": goal.user,
@@ -65,7 +65,7 @@ def send_update_email(id):
             '',
             settings.EMAIL_FROM,
             ["rohan@rohanroy.com"],
-            html_message=html_message,
+            # html_message=html_message,
             fail_silently=False
         )
         logger.info("Email was sent to [%s]" % goal.user.email)
@@ -92,7 +92,7 @@ def daily_notification():
             '',
             settings.EMAIL_FROM,
             ["rohan@rohanroy.com"],
-            html_message=html_message,
+            # html_message=html_message,
             fail_silently=False
         )
         logger.info("Email was sent to [%s]" % user.email)
