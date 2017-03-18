@@ -23,9 +23,10 @@ class DetailUpdateGoal(RetrieveUpdateDestroyAPIView):
 
     def patch(self, request, *args, **kwargs):
         goal = self.get_object()
+
         if not goal.completed:
             goal.completed = True
             goal.save()
-        serializer = self.get_serializer()
+        serializer = self.get_serializer(goal)
 
-        return Response(serializer(goal).data, status=204)
+        return Response(serializer.data, status=204)
