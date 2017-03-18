@@ -22,6 +22,3 @@ def create_notification(sender, instance=None, created=False, **kwargs):
     except:
         logger.info("signal didn't work")
 
-# @receiver(post_save, sender=Goal)
-# def update_notification(*kw):
-#     pass

@@ -84,6 +84,8 @@ def daily_notification():
 
     users = User.objects.all()
     for user in users:
+        logger.info("user: ", user)
+        print("user: ",user)
         goals = user.goal_set.all()
 
         html_message = template.render({
