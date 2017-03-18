@@ -4,6 +4,7 @@ from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIV
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+
 # Create your views here.
 
 class ListCreateGoals(ListCreateAPIView):
@@ -20,10 +21,11 @@ class DetailUpdateGoal(RetrieveUpdateDestroyAPIView):
     queryset = Goal.objects.all()
     permission_classes = (IsAuthenticated,)
 
-    # def patch(self, request, *args, **kwargs):
-    #     goal = self.get_object()
-    #     if not goal.completed:
-    #         goal.completed = True
-    #     serializer = self.get_serializer()
-    #
-    #     return Response(serializer(goal).data, status=204)
+    def patch(self, request, *args, **kwargs):
+        goal = self.get_object()
+        if not goal.completed:
+            goal.completed = True
+            goal.save()
+        serializer = self.get_serializer()
+
+        return Response(serializer(goal).data, status=204)
