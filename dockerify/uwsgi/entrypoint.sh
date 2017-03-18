@@ -22,7 +22,7 @@ echo yes | python src/manage.py collectstatic --noinput
 
 supervisorctl update
 supervisorctl status mysanacelery
-supervisorctl status mysanacelerybeat
+#supervisorctl status mysanacelerybeat
 
 # Forward app logs to docker log collector
 tail -n0 -F /var/log/app_logs/*.log &
