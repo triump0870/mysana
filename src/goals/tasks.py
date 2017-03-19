@@ -85,7 +85,7 @@ def daily_notification():
 
     users = User.objects.all()
     for user in users:
-        goals = user.goal_set.all()
+        goals = user.goal_set.filter(completed=False)
         logger.info("Goals count for user %s is %s" % (user.id, goals.count()))
         if goals.count() > 1:
             html_message = template.render({
@@ -112,7 +112,7 @@ def overdue_task():
 
     users = User.objects.all()
     for user in users:
-        goals = user.goal_set.all().filter(end_date__gte=now)
+        goals = user.goal_set.all().filter(end_date__gte=now, completed=False)
         logger.info("Goals count for user %s is %s" % (user.id, goals.count()))
         if goals.count() > 0:
             html_message = template.render({
