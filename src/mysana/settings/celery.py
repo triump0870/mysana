@@ -1,11 +1,12 @@
 from __future__ import absolute_import
 
 import os
-from datetime import timedelta
 
 from celery import Celery
+from celery.schedules import crontab
 from django.conf import settings
 from kombu import Exchange, Queue
+from datetime import timedelta
 
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysana.settings.development')
@@ -32,6 +33,6 @@ app.conf.update(
 app.conf.beat_schedule = {
     'notify-every-morning': {
         'task': 'goals.tasks.daily_notification',
-        'schedule': timedelta(seconds=30),
+        'schedule': crontab(minute='*/1'),
     },
 }
