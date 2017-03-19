@@ -51,13 +51,11 @@ def up():
 
 
 def replace_aws():
-    local('sed -i.bak "s/{{AWS_NETWORK}}/$AWS_NETWORK/" docker-compose.yml')
-    local('sed -i.bak "s/{{AWS_STORAGE}}/$AWS_STORAGE/" docker-compose.yml')
+    local('sed -i.bak "s/{{AWS_NETWORK}}/$AWS_NETWORK/; s/{{AWS_STORAGE}}/$AWS_STORAGE/" docker-compose.yml')
 
 
 def place_aws():
-    local('sed -i.bak "s/$AWS_NETWORK/{{AWS_NETWORK}}/" docker-compose.yml')
-    local('sed -i.bak "s/$AWS_STORAGE/{{AWS_STORAGE}}/" docker-compose.yml')
+    local('sed -i.bak "s/$AWS_NETWORK/{{AWS_NETWORK}}/; s/$AWS_STORAGE/{{AWS_STORAGE}}/" docker-compose.yml')
 
 
 @task()

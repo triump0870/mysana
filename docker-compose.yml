@@ -61,9 +61,9 @@ services:
       - ${AWS_NETWORK}
 
 volumes:
-  postres-data:
+  {{AWS_STORAGE}}:
     external: true
 
 networks:
-  mysana_default:
+  {{AWS_NETWORK}}:
     external: true
