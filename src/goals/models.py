@@ -15,11 +15,11 @@ class Goal(models.Model):
     """
     Goal objects
     """
-    title = models.CharField(max_length=100, blank=False, null=False)
+    title = models.CharField(max_length=256, blank=False, null=False, help_text=_('Max 256 Characters'))
     slug = models.SlugField(max_length=150, blank=True, null=True)
-    description = models.TextField(help_text=_('optional'), null=True, blank=True)
+    description = models.TextField(help_text=_('Optional'), null=True, blank=True)
     user = models.ForeignKey(User)
-    end_date = models.DateField(help_text=_('format yyyy-mm-dd'))
+    end_date = models.DateField(help_text=_('Format YYYY-MM-DD'))
     completed = models.BooleanField(default=False)
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
     updated_at = models.DateTimeField(editable=False, auto_now_add=True)
