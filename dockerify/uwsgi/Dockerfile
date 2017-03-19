@@ -1,13 +1,11 @@
 # The base image
-FROM python:3.4
+FROM python:2.7
 
 # Install all debian packages
 RUN apt-get update && apt-get install -y \
         gcc \
-        mysql-client libmysqlclient-dev\
         postgresql-client libpq-dev \
-		sqlite3 \
-        python3-dev \
+        python-dev \
         build-essential \
         vim \
     --no-install-recommends && rm -rf /var/lib/apt/lists/*
@@ -28,23 +26,21 @@ RUN pip install -r /app-requirements/requirements.txt
 RUN pip install django-faker model_mommy
 RUN pip install django-celery
 
+RUN apt-get update && apt-get install -y \
+    supervisor rabbitmq-server
+
+EXPOSE 15672
+EXPOSE 5672
+
 COPY . /app/
 
 RUN mkdir -p /var/log/celery
 RUN mkdir -p /var/log/app_logs
+RUN touch /var/log/celery/mysana_worker.log
+RUN touch /var/log/celery/mysana_beat.log
+RUN cp -f ./dockerify/uwsgi/celery_sup.conf /etc/supervisor/conf.d/
+RUN cp -f ./dockerify/uwsgi/celery_beat.conf /etc/supervisor/conf.d/
 
-COPY ./dockerify/uwsgi/celeryd.conf /etc/default/
-COPY ./dockerify/uwsgi/celeryd /etc/init.d/celeryd
-#COPY ./dockerify/uwsgi/celerybeat /etc/init.d/celerybeat
-
-#RUN cp /etc/init.d/celerybeat /etc/init.d/accounts_celerydbeat
-#RUN chmod +x /etc/init.d/accounts_celerydbeat
-
-RUN mv /etc/default/celeryd.conf /etc/default/celeryd
-RUN chmod +x /etc/init.d/celeryd
-RUN chmod 640 /etc/default/celeryd
-
-COPY ./dockerify/uwsgi/mysana_celery.conf /etc/init/mysana_celery.conf
 # Create the log directory for uwsgi and the shared directory for static files
 RUN mkdir /var/log/uwsgi /shared
 

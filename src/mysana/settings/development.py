@@ -44,7 +44,6 @@ STATIC_ROOT = join(BASE_DIR, '..', 'site', 'static')
 
 # Log everything to the logs directory at the top
 logfile_path = environ.get('LOG_FILE_PATH', '/var/log/app_logs')
-makedirs(logfile_path, exist_ok=True)
 LOGFILE_ROOT = join(BASE_DIR, logfile_path)
 
 REST_FRAMEWORK = {
@@ -126,23 +125,23 @@ EMAIL_BACKEND = env('EMAIL_BACKEND')
 # Redis
 import os
 
-REDIS_PORT = 6379
-REDIS_DB = 0
-REDIS_HOST = os.environ.get('REDIS_PORT_6379_TCP_ADDR', 'mysana-redis')
+# REDIS_PORT = 6379
+# REDIS_DB = 0
+# REDIS_HOST = os.environ.get('REDIS_PORT_6379_TCP_ADDR', 'mysana-redis')
 
-RABBIT_HOSTNAME = os.environ.get('RABBIT_PORT_5672_TCP', 'mysana-rabbit')
+# RABBIT_HOSTNAME = os.environ.get('RABBIT_PORT_5672_TCP', 'mysana-rabbit')
 
-if RABBIT_HOSTNAME.startswith('tcp://'):
-    RABBIT_HOSTNAME = RABBIT_HOSTNAME.split('//')[1]
+# if RABBIT_HOSTNAME.startswith('tcp://'):
+#     RABBIT_HOSTNAME = RABBIT_HOSTNAME.split('//')[1]
 
-BROKER_URL = os.environ.get('BROKER_URL', '')
+BROKER_URL = os.environ.get('BROKER_URL', 'amqp://')
 
-if not BROKER_URL:
-    BROKER_URL = 'amqp://{user}:{password}@{hostname}/{vhost}/'.format(
-        user=os.environ.get('RABBIT_ENV_USER', 'admin'),
-        password=os.environ.get('RABBIT_ENV_RABBITMQ_PASS', 'rohan123'),
-        hostname=RABBIT_HOSTNAME,
-        vhost=os.environ.get('RABBIT_ENV_VHOST', ''))
+# if not BROKER_URL:
+#     BROKER_URL = 'amqp://{user}:{password}@{hostname}/{vhost}/'.format(
+#         user=os.environ.get('RABBIT_ENV_USER', 'admin'),
+#         password=os.environ.get('RABBIT_ENV_RABBITMQ_PASS', 'rohan123'),
+#         hostname=RABBIT_HOSTNAME,
+#         vhost=os.environ.get('RABBIT_ENV_VHOST', ''))
 
 # We don't want to have dead connections stored on rabbitmq, so we have to negotiate using heartbeats
 BROKER_HEARTBEAT = '?heartbeat=30'
@@ -162,8 +161,3 @@ CELERY_RESULT_BACKEND = "amqp"
 CELERYD_HIJACK_ROOT_LOGGER = False
 CELERYD_PREFETCH_MULTIPLIER = 1
 CELERYD_MAX_TASKS_PER_CHILD = 1000
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TIMEZONE = "India/Kolkata"
-CELERY_IMPORTS = ("goals.tasks")

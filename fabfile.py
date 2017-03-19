@@ -8,12 +8,6 @@ from fabric.colors import green
 
 @task()
 def build_images():
-    # if not get_debug_value():
-    #     try:
-    #         backup_mysql()
-    #     except Exception as e:
-    #         print("Error occurred: %s" % e)
-    #         exit(1)
     django_secret_key = generate_key()
     django_settings_module = get_env_value('DJANGO_SETTINGS_MODULE')
     database_user = get_env_value('DATABASE_USER')
@@ -40,31 +34,35 @@ def get_env_value(key):
 def up():
     web_host = get_env_value('WEB_HOST')
     network = get_env_value('AWS_NETWORK')
+    storage = get_env_value('AWS_STORAGE')
     set_env("WEB_HOST", web_host)
     set_env("AWS_NETWORK", network)
-    replace_network()
+    set_env("AWS_STORAGE", storage)
+    replace_aws()
     example_file_conversion("mysana.settings.local.env.example")
     local('docker-compose up -d')
-    place_network()
+    place_aws()
 
 
-def replace_network():
-    local('sed -i.bak "s/{{AWS_NETWORK}}/$AWS_NETWORK/" docker-compose.yml')
+def replace_aws():
+    local('sed -i.bak "s/{{AWS_NETWORK}}/$AWS_NETWORK/; s/{{AWS_STORAGE}}/$AWS_STORAGE/" docker-compose.yml')
 
 
-def place_network():
-    local('sed -i.bak "s/$AWS_NETWORK/{{AWS_NETWORK}}/" docker-compose.yml')
+def place_aws():
+    local('sed -i.bak "s/$AWS_NETWORK/{{AWS_NETWORK}}/; s/$AWS_STORAGE/{{AWS_STORAGE}}/" docker-compose.yml')
 
 
 @task()
 def status():
     web_host = get_env_value('WEB_HOST')
     network = get_env_value('AWS_NETWORK')
+    storage = get_env_value('AWS_STORAGE')
     set_env("WEB_HOST", web_host)
     set_env("AWS_NETWORK", network)
-    replace_network()
+    set_env("AWS_STORAGE", storage)
+    replace_aws()
     local('docker-compose ps')
-    place_network()
+    place_aws()
 
 
 @task()
@@ -78,14 +76,16 @@ def bash(container='mysana-uwsgi', command=""):
 
 
 @task()
-def down():
+def down(flag=''):
     web_host = get_env_value('WEB_HOST')
     network = get_env_value('AWS_NETWORK')
+    storage = get_env_value('AWS_STORAGE')
     set_env("WEB_HOST", web_host)
     set_env("AWS_NETWORK", network)
-    replace_network()
-    local('docker-compose down')
-    place_network()
+    set_env("AWS_STORAGE", storage)
+    replace_aws()
+    local('docker-compose down %s' % flag)
+    place_aws()
 
 
 @task()
@@ -99,9 +99,6 @@ def restart():
     # clean()
     print("\n===============The status of the containers===============\n\n   ")
     status()
-
-    # if not get_debug_value():
-    #     restore_mysql()
 
 
 @task()

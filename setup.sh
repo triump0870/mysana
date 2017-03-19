@@ -5,7 +5,7 @@ set -e
 sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get install -y linux-image-extra-$(uname -r) linux-image-extra-virtual
-sudo apt-get install -y gcc mysql-client libmysqlclient-dev build-essential
+sudo apt-get install -y build-essential
 sudo apt-get install -y apt-transport-https ca-certificates
 sudo apt-key adv \
            --keyserver hkp://ha.pool.sks-keyservers.net:80 \
@@ -19,15 +19,17 @@ sudo apt-get install -y docker-engine
 sudo apt-get autoremove -y
 sudo curl -o /usr/local/bin/docker-compose -L "https://github.com/docker/compose/releases/download/1.8.1/docker-compose-$(uname -s)-$(uname -m)"
 sudo chmod +x /usr/local/bin/docker-compose
-sudo apt-get install -y python3-pip
+sudo apt-get install -y python-pip
 export LC_ALL=C
 locale
-sudo pip3 install --upgrade pip
-sudo -H pip3 install fabric3 django-environ
+sudo pip install --upgrade pip
+sudo -H pip install fabric django-environ
 sudo service docker start
 
+cp src/mysana/settings/local.sample.env src/mysana/settings/local.env
+
 echo "You need to reboot the system"
-echo "Type 'yes' to continue, or 'no' to abort:"
+echo "Type 'yes' to continue, or 'no' to build the docker images:"
 select yn in "Yes" "No"; do
     case $yn in
         Yes ) echo "System is going for restart";

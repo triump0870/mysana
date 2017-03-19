@@ -1,6 +1,6 @@
 Hi {{user}},
 <br><br>
-You have the following life goals in Mysana App.
+You have {{count}} overdue life goals in Mysana App.
 <br><br>
 <ul>
     {% for goal in goals %}
@@ -8,7 +8,7 @@ You have the following life goals in Mysana App.
         <a href="http://{{server}}{{goal.get_absolute_url}}">{{goal.title}}</a><br>
     </li>
     {% empty %}
-    <p> You have no pending life goal in Mysana App.</p>
+    <p> You have no overdue life goal in Mysana App.</p>
     {% endfor %}
 </ul>
 <br><br><br>

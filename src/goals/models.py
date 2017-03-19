@@ -1,9 +1,11 @@
-from django.db import models
-from django.conf import settings
-from django.template.defaultfilters import slugify
 from datetime import datetime
+
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
+from django.db import models
+from django.template.defaultfilters import slugify
+from django.utils.translation import ugettext_lazy as _
 
 User = settings.AUTH_USER_MODEL
 
@@ -13,11 +15,11 @@ class Goal(models.Model):
     """
     Goal objects
     """
-    title = models.CharField(max_length=100, blank=False, null=False)
+    title = models.CharField(max_length=256, blank=False, null=False, help_text=_('Max 256 Characters'))
     slug = models.SlugField(max_length=150, blank=True, null=True)
-    description = models.TextField(null=True, blank=True)
+    description = models.TextField(help_text=_('Optional'), null=True, blank=True)
     user = models.ForeignKey(User)
-    end_date = models.DateField()
+    end_date = models.DateField(help_text=_('Format YYYY-MM-DD'))
     completed = models.BooleanField(default=False)
     created_at = models.DateTimeField(editable=False, auto_now_add=True)
     updated_at = models.DateTimeField(editable=False, auto_now_add=True)
