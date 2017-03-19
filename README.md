@@ -65,7 +65,7 @@ Are you crazy? Flash your bootloader and install Linux ;)
 
 `fab build_images` -- create the docker images
 
-#### API Documentation: 
+## API Documentation: 
 **GET _/api/goals_**
 
 _**Description:** Get the list of the life goals of the user_
