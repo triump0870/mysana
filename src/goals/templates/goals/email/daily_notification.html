@@ -3,6 +3,7 @@ Hi {{user}},
 You have the following life goals in Mysana App.
 <br><br>
 <ul>
+    <p>Goals: {{goals}}</p>
     {% for goal in goals %}
     <li>
         <a href="http:// + {{server}} + {{goal.get_absolute_url}}">{{goal.title}}</a><br>

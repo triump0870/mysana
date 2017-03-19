@@ -8,7 +8,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.template import loader
-
+from djcelery.models import PeriodicTask
 from goals.models import Goal
 
 logger = logging.getLogger("project")
@@ -23,7 +23,7 @@ def send_creation_email(id):
     subject = "Mysana Notification"
 
     html_message = template.render({
-        "user": goal.user.name,
+        "user": goal.user.name.title(),
         "goal": goal.title,
         "url": "http://" + os.environ.get('SERVER_NAME', 'mysana.rohanroy.com') + goal.get_absolute_url()
     })
@@ -56,7 +56,7 @@ def send_update_email(id):
     template = loader.get_template("goals/email/update_goal.html")
 
     html_message = template.render({
-        "user": goal.user.name,
+        "user": goal.user.name.title(),
         "goal": goal.title,
         "status": status,
         "url": "http://" + os.environ.get('SERVER_NAME', 'mysana.rohanroy.com') + goal.get_absolute_url()
@@ -85,12 +85,12 @@ def daily_notification():
     users = User.objects.all()
     for user in users:
         logger.info("user: ", user)
-        print("user: ",user)
+        print("user: ", user)
         goals = user.goal_set.all()
-
+        logger.info("goals:{} and type{}".format(goals, type(goals)))
         html_message = template.render({
-            "user": user,
-            "goal": goals,
+            "user": user.name.title(),
+            "goals": goals,
             "server": os.environ.get('SERVER_NAME', 'mysana.rohanroy.com')
         })
         logger.info("sending email for user [%s]" % user.id)
