@@ -1,0 +1,17 @@
+Hi {{user}},
+<br><br>
+You have the following overdue life goals in Mysana App.
+<br><br>
+<ul>
+    {% for goal in goals %}
+    <li>
+        <a href="http://{{server}}{{goal.get_absolute_url}}">{{goal.title}}</a><br>
+    </li>
+    {% empty %}
+    <p> You have no overdue life goal in Mysana App.</p>
+    {% endfor %}
+</ul>
+<br><br><br>
+Thanks,
+<br>
+Mysana Team.
