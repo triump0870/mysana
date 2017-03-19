@@ -2,13 +2,12 @@ import logging
 import os
 
 from celery.decorators import task
-from celery.schedules import crontab
-from celery.task.base import periodic_task
+from celery.task import periodic_task
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.template import loader
-from djcelery.models import PeriodicTask
+
 from goals.models import Goal
 
 logger = logging.getLogger("project")
@@ -77,7 +76,7 @@ def send_update_email(id):
         logger.info("Email was not sent to [%s]" % goal.user.email)
 
 
-@task()
+@periodic_task()
 def daily_notification():
     subject = "Mysana Daily Notification"
     template = loader.get_template("goals/email/daily_notification.html")
