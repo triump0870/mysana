@@ -78,7 +78,7 @@ def send_update_email(id):
         logger.info("Email was not sent to [%s]" % goal.user.email)
 
 
-@periodic_task(run_every=crontab(hour="23", minute="15"))
+@periodic_task(run_every=crontab(hour="23", minute="30"))
 def daily_notification():
     subject = "Mysana Daily Notification"
     template = loader.get_template("goals/email/daily_notification.html")
@@ -105,7 +105,7 @@ def daily_notification():
             logger.info("Daily notifications was sent to [%s]" % user.email)
 
 
-@periodic_task(run_every=crontab(hour="23", minute="15"))
+@periodic_task(run_every=crontab(hour="23", minute="30"))
 def overdue_task():
     template = loader.get_template("goals/email/overdue_notification.html")
     now = datetime.now()
