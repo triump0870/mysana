@@ -125,14 +125,14 @@ EMAIL_BACKEND = env('EMAIL_BACKEND')
 # Redis
 import os
 
-REDIS_PORT = 6379
-REDIS_DB = 0
-REDIS_HOST = os.environ.get('REDIS_PORT_6379_TCP_ADDR', 'mysana-redis')
+# REDIS_PORT = 6379
+# REDIS_DB = 0
+# REDIS_HOST = os.environ.get('REDIS_PORT_6379_TCP_ADDR', 'mysana-redis')
 
-RABBIT_HOSTNAME = os.environ.get('RABBIT_PORT_5672_TCP', 'mysana-rabbit')
+# RABBIT_HOSTNAME = os.environ.get('RABBIT_PORT_5672_TCP', 'mysana-rabbit')
 
-if RABBIT_HOSTNAME.startswith('tcp://'):
-    RABBIT_HOSTNAME = RABBIT_HOSTNAME.split('//')[1]
+# if RABBIT_HOSTNAME.startswith('tcp://'):
+#     RABBIT_HOSTNAME = RABBIT_HOSTNAME.split('//')[1]
 
 BROKER_URL = os.environ.get('BROKER_URL', 'amqp://')
 

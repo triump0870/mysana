@@ -10,8 +10,8 @@ services:
       - "5000:15672"
     links:
       - mysana-postgres
-      - mysana-rabbit
-      - mysana-redis
+#      - mysana-rabbit
+#      - mysana-redis
     volumes:
       - .:/app/
     env_file: ./src/mysana/settings/local.env
@@ -63,28 +63,28 @@ services:
       - ${AWS_NETWORK}
 
   # Redis
-  mysana-redis:
-    image: redis:2.8.19
-    container_name: mysana-redis
-    hostname: redis
-    networks:
-      - ${AWS_NETWORK}
-
-
-  # RabbitMQ
-  mysana-rabbit:
-    hostname: rabbit
-    image: rabbitmq:3.6.0
-    container_name: mysana-rabbit
-    ports:
-      - "5672:5672"
-      - "6000:15672"
-    environment:
-      - "VIRTUAL_HOST=rabbit.${WEB_HOST}"
-      - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=rohan123
-    networks:
-      - ${AWS_NETWORK}
+#  mysana-redis:
+#    image: redis:2.8.19
+#    container_name: mysana-redis
+#    hostname: redis
+#    networks:
+#      - ${AWS_NETWORK}
+#
+#
+#  # RabbitMQ
+#  mysana-rabbit:
+#    hostname: rabbit
+#    image: rabbitmq:3.6.0
+#    container_name: mysana-rabbit
+#    ports:
+#      - "5672:5672"
+#      - "6000:15672"
+#    environment:
+#      - "VIRTUAL_HOST=rabbit.${WEB_HOST}"
+#      - RABBITMQ_DEFAULT_USER=admin
+#      - RABBITMQ_DEFAULT_PASS=rohan123
+#    networks:
+#      - ${AWS_NETWORK}
 
 volumes:
   mysana-data:
