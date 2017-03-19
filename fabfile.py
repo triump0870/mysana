@@ -8,12 +8,6 @@ from fabric.colors import green
 
 @task()
 def build_images():
-    # if not get_debug_value():
-    #     try:
-    #         backup_mysql()
-    #     except Exception as e:
-    #         print("Error occurred: %s" % e)
-    #         exit(1)
     django_secret_key = generate_key()
     django_settings_module = get_env_value('DJANGO_SETTINGS_MODULE')
     database_user = get_env_value('DATABASE_USER')
