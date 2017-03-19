@@ -5,8 +5,7 @@ You have the following life goals in Mysana App.
 <ul>
     {% for goal in goals %}
     <li>
-        <p>"http://{{server}}/{{goal.get_absolute_url}}"</p>
-        <a href="http://{{server}}/{{goal.get_absolute_url}}">{{goal.title}}</a><br>
+        <a href="http://{{server}}{{goal.get_absolute_url}}">{{goal.title}}</a><br>
     </li>
     {% empty %}
     <p> You have no pending life goal in Mysana App.</p>
