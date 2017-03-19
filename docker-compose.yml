@@ -10,8 +10,6 @@ services:
       - "5000:15672"
     links:
       - mysana-postgres
-#      - mysana-rabbit
-#      - mysana-redis
     volumes:
       - .:/app/
     env_file: ./src/mysana/settings/local.env
@@ -56,40 +54,16 @@ services:
     image: postgres:9.5
     container_name: mysana-postgres-data
     volumes:
-      - mysql-data:/var/lib/postgresql/data
+      - ${AWS_STORAGE}:/var/lib/postgresql
     entrypoint: /bin/bash
     privileged: true
     networks:
       - ${AWS_NETWORK}
 
-  # Redis
-#  mysana-redis:
-#    image: redis:2.8.19
-#    container_name: mysana-redis
-#    hostname: redis
-#    networks:
-#      - ${AWS_NETWORK}
-#
-#
-#  # RabbitMQ
-#  mysana-rabbit:
-#    hostname: rabbit
-#    image: rabbitmq:3.6.0
-#    container_name: mysana-rabbit
-#    ports:
-#      - "5672:5672"
-#      - "6000:15672"
-#    environment:
-#      - "VIRTUAL_HOST=rabbit.${WEB_HOST}"
-#      - RABBITMQ_DEFAULT_USER=admin
-#      - RABBITMQ_DEFAULT_PASS=rohan123
-#    networks:
-#      - ${AWS_NETWORK}
-
 volumes:
-  mysql-data:
+  postres-data:
     external: true
 
 networks:
-  {{AWS_NETWORK}}:
+  mysana_default:
     external: true
