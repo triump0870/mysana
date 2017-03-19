@@ -24,7 +24,7 @@ app.conf.update(
         Queue('mysana', Exchange('mysana'), routing_key='mysana'),
     ),
 
-    CELERY_TIMEZONE='India/Kolkata',
+    CELERY_TIMEZONE='Asia/Kolkata',
     CELERY_ACCEPT_CONTENT=['application/json'],
     CELERY_TASK_SERIALIZER='json',
     CELERY_RESULT_SERIALIZER='json'
