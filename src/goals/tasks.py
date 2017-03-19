@@ -95,7 +95,7 @@ def daily_notification():
             subject,
             '',
             settings.EMAIL_FROM,
-            ["rohan@rohanroy.com"],
+            [user.email],
             html_message=html_message,
             fail_silently=False
         )
