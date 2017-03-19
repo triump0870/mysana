@@ -56,7 +56,7 @@ services:
     image: postgres:9.5
     container_name: mysana-postgres-data
     volumes:
-      - mysana-data:/var/lib/postgresql/data
+      - mysql-data:/var/lib/postgresql/data
     entrypoint: /bin/bash
     privileged: true
     networks:
@@ -87,7 +87,7 @@ services:
 #      - ${AWS_NETWORK}
 
 volumes:
-  mysana-data:
+  mysql-data:
     external: true
 
 networks:
