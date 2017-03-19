@@ -1,5 +1,6 @@
 import logging
 import os
+from datetime import datetime, timedelta
 
 from celery.decorators import task
 from celery.schedules import crontab
@@ -77,7 +78,7 @@ def send_update_email(id):
         logger.info("Email was not sent to [%s]" % goal.user.email)
 
 
-@periodic_task(run_every=crontab(hour="21", minute="40"))
+@periodic_task(run_every=crontab(hour="9", minute="0"))
 def daily_notification():
     subject = "Mysana Daily Notification"
     template = loader.get_template("goals/email/daily_notification.html")
@@ -100,3 +101,31 @@ def daily_notification():
             fail_silently=False
         )
         logger.info("Daily notifications was sent to [%s]" % user.email)
+
+
+@periodic_task(run_every=crontab(hour="22", minute="05"))
+def overdue_task():
+    template = loader.get_template("goals/email/overdue_notification.html")
+    now = datetime.now() - timedelta(days=3)
+
+    users = User.objects.all()
+    for user in users:
+        goals = user.goal_set.all().filter(end_date__gte=now)
+        html_message = template.render({
+            "user": user.name.title(),
+            "goals": goals,
+            "server": os.environ.get('SERVER_NAME', 'mysana.rohanroy.com'),
+            "count": goals.count()
+        })
+        subject = "You have %s overdue life goals in Mysana" % goals.count()
+
+        logger.info("sending daily overdue notifications for user [%s]" % user.id)
+        send_mail(
+            subject,
+            '',
+            settings.EMAIL_FROM,
+            [user.email],
+            html_message=html_message,
+            fail_silently=False
+        )
+        logger.info("Daily overdue notifications was sent to [%s]" % user.email)
