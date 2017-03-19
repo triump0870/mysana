@@ -35,7 +35,7 @@ def send_creation_email(id):
             subject,
             '',
             settings.EMAIL_FROM,
-            ["rohan@rohanroy.com"],
+            [goal.user.email],
             html_message=html_message,
             fail_silently=False
         )
@@ -69,7 +69,7 @@ def send_update_email(id):
             subject,
             '',
             settings.EMAIL_FROM,
-            ["rohan@rohanroy.com"],
+            [goal.user.email],
             html_message=html_message,
             fail_silently=False
         )
