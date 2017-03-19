@@ -39,7 +39,7 @@ RUN mkdir -p /var/log/app_logs
 RUN touch /var/log/celery/mysana_worker.log
 RUN touch /var/log/celery/mysana_beat.log
 RUN cp -f ./dockerify/uwsgi/celery_sup.conf /etc/supervisor/conf.d/
-#RUN cp -f ./dockerify/uwsgi/celery_beat.conf /etc/supervisor/conf.d/
+RUN cp -f ./dockerify/uwsgi/celery_beat.conf /etc/supervisor/conf.d/
 
 # Create the log directory for uwsgi and the shared directory for static files
 RUN mkdir /var/log/uwsgi /shared

@@ -22,8 +22,9 @@ echo yes | python src/manage.py collectstatic --noinput
 
 supervisorctl update
 supervisorctl status mysanacelery
+supervisorctl status mysanacelerybeat
 
-python src/manage.py celery beat --detach -l info
+#python src/manage.py celery beat --detach -l info
 # Forward app logs to docker log collector
 tail -n0 -F /var/log/app_logs/*.log &
 tail -n0 -F /var/log/celery/*.log &

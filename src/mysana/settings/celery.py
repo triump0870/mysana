@@ -33,6 +33,6 @@ app.conf.update(
 app.conf.beat_schedule = {
     'notify-every-morning': {
         'task': 'goals.tasks.daily_notification',
-        'schedule': crontab(minute='*/1'),
+        'schedule': crontab(minute='*/2'),
     },
 }
