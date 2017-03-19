@@ -1,9 +1,9 @@
 from __future__ import absolute_import
 
 import os
+from datetime import timedelta
 
 from celery import Celery
-from celery.schedules import crontab
 from django.conf import settings
 from kombu import Exchange, Queue
 
@@ -22,19 +22,16 @@ app.conf.update(
     CELERY_QUEUES=(
         Queue('mysana', Exchange('mysana'), routing_key='mysana'),
     ),
-    CELERYBEAT_SCHEDULE={
-        'notification-every-day-morning': {
-            'task': 'goals.tasks.daily_notification',
-            'schedule': crontab(hour=9, minute=0)
-        },
-    },
+
     CELERY_TIMEZONE='India/Kolkata',
     CELERY_ACCEPT_CONTENT=['application/json'],
     CELERY_TASK_SERIALIZER='json',
     CELERY_RESULT_SERIALIZER='json'
 )
 
-
-@app.task
-def print_hello():
-    print('hello there')
+app.conf.beat_schedule = {
+    'notify-every-morning': {
+        'task': 'goals.tasks.daily_notification',
+        'schedule': timedelta(seconds=30),
+    },
+}
