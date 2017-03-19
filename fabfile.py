@@ -78,13 +78,13 @@ def bash(container='mysana-uwsgi', command=""):
 
 
 @task()
-def down():
+def down(flag=''):
     web_host = get_env_value('WEB_HOST')
     network = get_env_value('AWS_NETWORK')
     set_env("WEB_HOST", web_host)
     set_env("AWS_NETWORK", network)
     replace_network()
-    local('docker-compose down')
+    local('docker-compose down %s' % flag)
     place_network()
 
 
