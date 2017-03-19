@@ -77,7 +77,7 @@ def send_update_email(id):
         logger.info("Email was not sent to [%s]" % goal.user.email)
 
 
-@periodic_task(run_every=crontab(minute="*/2"))
+@periodic_task(run_every=crontab(hour="21", minute="40"))
 def daily_notification():
     subject = "Mysana Daily Notification"
     template = loader.get_template("goals/email/daily_notification.html")
@@ -90,7 +90,7 @@ def daily_notification():
             "goals": goals,
             "server": os.environ.get('SERVER_NAME', 'mysana.rohanroy.com')
         })
-        logger.info("sending email for user [%s]" % user.id)
+        logger.info("sending daily notifications for user [%s]" % user.id)
         send_mail(
             subject,
             '',
@@ -99,4 +99,4 @@ def daily_notification():
             html_message=html_message,
             fail_silently=False
         )
-        logger.info("Email was sent to [%s]" % user.email)
+        logger.info("Daily notifications was sent to [%s]" % user.email)
